@@ -1,0 +1,12 @@
+# ninja log v5
+6	1544	6809902715467670	CMakeFiles/ErikSinNye.dir/main.cpp.obj	5115c546b1fdb30e
+4	836	6809912372911061	CMakeFiles/ErikSinNye.dir/Person.cpp.obj	5f8c87d24d40ffc0
+837	1893	6809912381620001	ErikSinNye.exe	6ae5400ede2ab731
+15	867	6809923640511295	CMakeFiles/ErikSinNye.dir/Person.cpp.obj	5f8c87d24d40ffc0
+7	537	6809924290188706	CMakeFiles/ErikSinNye.dir/main.cpp.obj	5115c546b1fdb30e
+538	729	6809924291907007	ErikSinNye.exe	6ae5400ede2ab731
+5	729	6809926597149544	CMakeFiles/ErikSinNye.dir/main.cpp.obj	5115c546b1fdb30e
+4	616	6809926980319668	CMakeFiles/ErikSinNye.dir/Person.cpp.obj	5f8c87d24d40ffc0
+617	783	6809926981881474	ErikSinNye.exe	6ae5400ede2ab731
+6	627	6809928701514648	CMakeFiles/ErikSinNye.dir/Person.cpp.obj	5f8c87d24d40ffc0
+628	794	6809928703076796	ErikSinNye.exe	6ae5400ede2ab731

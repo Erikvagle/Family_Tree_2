@@ -1,0 +1,6 @@
+# ninja log v5
+2	1495	6805652697280885	CMakeFiles/untitled3.dir/main.cpp.obj	ab25b38db036ac92
+14	1542	6805652697727041	CMakeFiles/untitled3.dir/Person.cpp.obj	35c12f78eda876d5
+1542	1892	6805652701072025	untitled3.exe	5d55fa6de29f1332
+13	322	6806481786029346	CMakeFiles/untitled3.dir/FamilyTree_withTests/Google_tests/TreeTests.cpp.obj	a15ebd51766ec61a
+323	848	6806481791251463	untitled3.exe	c03ce71a30c8f89b
