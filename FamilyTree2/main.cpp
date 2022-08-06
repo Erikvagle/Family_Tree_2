@@ -6,8 +6,7 @@
 using namespace std;
 
 void AddPerson () {
-    string Commando, sFirstName, sLastName, sGender;
-    int nBirthYear, nDeathYear;
+    string Commando, sFirstName, sLastName, sGender, sBirthYear, sDeathYear;
 
     cout << "First name: ";
     getline(cin, sFirstName);
@@ -19,20 +18,20 @@ void AddPerson () {
     getline(cin, sGender);
 
     cout << "Year of birth: ";
-    cin >> nBirthYear;
+    getline(cin, sBirthYear);
 
     cout << "Year of death: ";
-    cin >> nDeathYear;
+    getline(cin, sDeathYear);
 
     // TODO: Remove later
     cout << endl << "you entered " << endl;
     cout << "First name = " << sFirstName << endl;
     cout << "Last name =  " << sLastName << endl;
     cout << "Gender = " << sGender << endl;
-    cout << "Year of birth = " << nBirthYear << endl;
-    cout << "Year of death = " << nDeathYear << endl;
+    cout << "Year of birth = " << sBirthYear << endl;
+    cout << "Year of death = " << sDeathYear << endl;
 
-    Person NewPerson = Person(sFirstName, sLastName, sGender, nBirthYear, nDeathYear);
+    Person NewPerson = Person(sFirstName, sLastName, sGender, sBirthYear, sDeathYear);
     cout << "Skriver ut klasse instance" << endl;
     cout << NewPerson;
 
@@ -40,9 +39,11 @@ void AddPerson () {
 
 
 int main(){
+    cout << "Family tree" << endl;
+    cout << "This is a general tree where with different commands you can create People and add children to a person of your choosing "  << endl;
+    cout << "The first step is creating the Root ancestor" << endl;
     // Create the ancestor
-    string Commando, sFirstName, sLastName, sGender;
-    int nBirthYear, nDeathYear;
+    string Commando, sFirstName, sLastName, sGender, sBirthYear, sDeathYear;
 
     cout << "First name: ";
     getline(cin, sFirstName);
@@ -54,33 +55,32 @@ int main(){
     getline(cin, sGender);
 
     cout << "Year of birth: ";
-    cin >> nBirthYear;
+    getline (cin, sBirthYear);
 
     cout << "Year of death: ";
-    cin >> nDeathYear;
+    getline (cin, sDeathYear);
 
     // Remove later
     cout << endl << "you entered " << endl;
     cout << "First name = " << sFirstName << endl;
     cout << "Last name =  " << sLastName << endl;
     cout << "Gender = " << sGender << endl;
-    cout << "Year of birth = " << nBirthYear << endl;
-    cout << "Year of death = " << nDeathYear << endl;
+    cout << "Year of birth = " << sBirthYear << endl;
+    cout << "Year of death = " << sDeathYear << endl;
 
-    Person NewPerson = Person(sFirstName, sLastName, sGender, nBirthYear, nDeathYear);
+    Person NewPerson = Person(sFirstName, sLastName, sGender, sBirthYear, sDeathYear);
     cout << "Skriver ut klasse instance" << endl;
-    cout << NewPerson;  // TODO: Remove later
+    cout << NewPerson << endl;  // TODO: Remove later
 
-    Person* pFamilyTree = new Person(sFirstName, sLastName,sGender,nBirthYear,nDeathYear);
+    Person* pFamilyTree = new Person(sFirstName, sLastName,sGender,sBirthYear,sDeathYear);
     Person* pActivePerson = pFamilyTree;
 
     // Now we have created out tree and the root node - ready to accept commands
 
     // TODO: Lag intro text
-    cout << "Family tree" << endl;
     cout << "Active person is" << endl;
     cout << pActivePerson->printPerson() << endl << endl;
-    cout << "Please input command. Valid commands are ADD, PRINT, CHOOSE PARENT or EXIT" << endl;
+    cout << "Please input command. Valid commands are ADD, PRINT, CHOOSE ACTIVE PERSON or EXIT" << endl;
 
     string Command;
 
@@ -102,27 +102,26 @@ int main(){
             cout << "Gender: ";
             getline(cin, sGender);
 
-            int nBirthYear, nDeathYear;
-
             cout << "Year of birth: ";
-            cin >> nBirthYear;
+            getline(cin, sBirthYear);
 
             cout << "Year of death: ";
-            cin >> nDeathYear;
+            getline(cin, sDeathYear);
 
             cout << endl << "you entered " << endl;
             cout << "First name = " << sFirstName << endl;
             cout << "Last name =  " << sLastName << endl;
             cout << "Gender = " << sGender << endl;
-            cout << "Year of birth = " << nBirthYear << endl;
-            cout << "Year of death = " << nDeathYear << endl;
+            cout << "Year of birth = " << sBirthYear << endl;
+            cout << "Year of death = " << sDeathYear << endl;
 
-            pActivePerson->addChild(sFirstName, sLastName, sGender, nBirthYear, nDeathYear);
+            pActivePerson->addChild(sFirstName, sLastName, sGender, sBirthYear, sDeathYear);
             pActivePerson->printPerson();
 
         } else if (Command == "PRINT") {
             pFamilyTree->breadthFirstTraverse();
-        } else if (Command == "CHOOSE PARENT") {
+            //pFamilyTree->traverse();
+        } else if (Command == "CHOOSE ACTIVE PERSON") {
             string sParentFirstName, sParentLastName;
             cout << "Parent First Name: ";
             cin >> sParentFirstName;
@@ -147,6 +146,7 @@ int main(){
         }
 //TODO: SET active Person
     }
+    delete pFamilyTree;
     return 0;
 
 }

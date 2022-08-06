@@ -1,6 +1,6 @@
 #include "Person.h"
 
-Person::Person(std::string firstname, std::string lastname, std::string gender, int birthYear, int deathYear) {
+Person::Person(std::string firstname, std::string lastname, std::string gender, string birthYear, string deathYear) {
     // Constructor assigning initial values
     firstname_ = firstname;
     lastname_ = lastname;
@@ -10,41 +10,59 @@ Person::Person(std::string firstname, std::string lastname, std::string gender, 
     children = vector<Person *>();
     Parent = nullptr;
 }
-
-void Person::traverse(){
+Person::~Person() {
+    if (Parent) {
+        cout << "Destructor called on" << firstname_ << ", " << lastname_ << endl;
+        delete Parent;
+    }
+    if (children.empty()==false) {
+        for (int i=0; i<children.size(); i++) {
+            cout << "Destructor called on child " + children[i]->firstname_ << ", " << children[i]->lastname_ << endl;
+            delete children[i];
+        }
+    }
+}
+void Person::traverse(int nIndent){
     //Depth-first-traversal and print
+    for (int i=0; i< nIndent;i++) {
+        cout << " ";
+    }
     if (children.empty() == true) {
         cout << firstname_ << "," << lastname_ << "," << gender_ << "," << birthYear_ << "," << deathYear_ << endl;
     }
     else{
         for (int i = 0; i<children.size(); i++){
-            children[i]->traverse();
+            nIndent = nIndent + 5;
+            children[i]->traverse(nIndent);
         }
         cout << firstname_ << "," << lastname_ << "," << gender_ << "," << birthYear_ << "," << deathYear_ << endl;
     }
 }
 
-void Person::breadthFirstTraverse(){
+void Person::breadthFirstTraverse(int nIndent) {
     //breadth-first-traversal and print
-
-    std::cout << firstname_ << "," << lastname_ << "," << gender_ << "," << birthYear_ << "," << deathYear_ << endl;
+    for (int i=0; i< nIndent;i++) {
+        cout << " ";
+    }
+    cout << firstname_ << "," << lastname_ << "," << gender_ << "," << birthYear_ << "," << deathYear_ << endl;
+    nIndent = nIndent + 5;
     if (children.empty() == false) {
         for (int i = 0; i < children.size(); i++) {
-            children[i]->breadthFirstTraverse();
+            children[i]->breadthFirstTraverse(nIndent);
         }
     }
 }
 
 
-std::string Person::getFirstName() {
+string Person::getFirstName() {
         return firstname_;
     }
 
-std::string Person::getLastName() {
+string Person::getLastName() {
         return lastname_;
     }
 
-std::string Person::getGender() {
+string Person::getGender() {
         return gender_;
     }
 
@@ -52,11 +70,11 @@ void Person::setParent(Person* newParent){
     Parent = newParent;
 }
 
-int Person::getBirthYear() {
+string Person::getBirthYear() {
         return birthYear_;
     }
 
-int Person::getDeathYear() {
+string Person::getDeathYear() {
         return deathYear_;
     }
 
@@ -66,7 +84,7 @@ void Person::addChild(Person* nextPerson){
     nextPerson->setParent(this);
     children.push_back(nextPerson);
 }
-void Person::addChild(std::string firstname, std::string lastname, std::string gender, int birthYear, int deathYear){
+void Person::addChild(string firstname, string lastname, string gender, string birthYear, string deathYear){
     //create and add a new child to person
     Person* newChild = new Person(firstname, lastname, gender, birthYear, deathYear);
     newChild->setParent(this);
@@ -112,14 +130,14 @@ Person* Person::findPerson (string Firstname, string Lastname, bool &PersonFound
 
 string Person::printPerson() {
     string sReturnString;
-    sReturnString = getFirstName() + getLastName() + getGender();
-    sReturnString = sReturnString + to_string(getDeathYear()) + to_string(getDeathYear());
+    sReturnString = getFirstName() + ", " + getLastName() + ", " + getGender();
+    sReturnString = sReturnString + ", " + getBirthYear() + ", " + getDeathYear();
     return sReturnString;
 }
 
 
 std::ostream& operator <<(std::ostream& os, const Person& c) {
-    os << c.firstname_ << "," << c.lastname_ << "," << c.gender_ << "," << c.birthYear_ << "," << c.deathYear_;
+    os << c.firstname_ << ", " << c.lastname_ << ", " << c.gender_ << ", Born: " << c.birthYear_ << ", Died: " << c.deathYear_;
     return os;
 }
 //static Person parse(const std::string &str) {
