@@ -15,7 +15,7 @@ Person::~Person() {
         cout << "Destructor called on" << firstname_ << ", " << lastname_ << endl;
         delete Parent;
     }
-    if (children.empty()==false) {
+    if (!children.empty()) {
         for (int i=0; i<children.size(); i++) {
             cout << "Destructor called on child " + children[i]->firstname_ << ", " << children[i]->lastname_ << endl;
             delete children[i];
@@ -27,7 +27,7 @@ void Person::traverse(int nIndent){
     for (int i=0; i< nIndent;i++) {
         cout << " ";
     }
-    if (children.empty() == true) {
+    if (children.empty()) {
         cout << firstname_ << "," << lastname_ << "," << gender_ << "," << birthYear_ << "," << deathYear_ << endl;
     }
     else{
@@ -46,7 +46,7 @@ void Person::breadthFirstTraverse(int nIndent) {
     }
     cout << firstname_ << "," << lastname_ << "," << gender_ << "," << birthYear_ << "," << deathYear_ << endl;
     nIndent = nIndent + 5;
-    if (children.empty() == false) {
+    if (!children.empty()) {
         for (int i = 0; i < children.size(); i++) {
             children[i]->breadthFirstTraverse(nIndent);
         }
@@ -95,7 +95,7 @@ Person* Person::selectChild (string FirstName, string LastName) {
     // select child from name return nullptr if child does not exist
     Person* currentChild;
     Person* returnChild = nullptr;
-    if (children.empty() == false)  {
+    if (!children.empty())  {
         for (int i = 0; i<children.size(); i++){
             currentChild = children[i];
             string currentFirstName = currentChild-> getFirstName();
@@ -115,7 +115,7 @@ Person* Person::findPerson (string Firstname, string Lastname, bool &PersonFound
         pReturnPerson = this;
         PersonFound = true;
         return pReturnPerson;
-    } else if (children.empty() == false) {
+    } else if (!children.empty()) {
         for (int i = 0; i<children.size(); i++){
             children[i]->findPerson(Firstname, Lastname, PersonFound);
             if (PersonFound) {

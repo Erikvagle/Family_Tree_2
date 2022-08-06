@@ -5,6 +5,17 @@
 
 using namespace std;
 
+void PrintHelp () {
+    cout << "Please input command, each command has name and a corresponding number." << endl;
+    cout << "Valid commands are" << endl;
+    cout << "ADD or 1" << endl;
+    cout << "CHOOSE ACTIVE PERSON or 2" << endl;
+    cout << "PRINT or 3" << endl;
+    cout << "PRINT2 or 4" << endl;
+    cout << "HELP or 5" << endl;
+    cout << "EXIT or 6" << endl;
+}
+
 void AddPerson () {
     string Commando, sFirstName, sLastName, sGender, sBirthYear, sDeathYear;
 
@@ -69,28 +80,24 @@ int main(){
     cout << "Year of death = " << sDeathYear << endl;
 
     Person NewPerson = Person(sFirstName, sLastName, sGender, sBirthYear, sDeathYear);
-    cout << "Skriver ut klasse instance" << endl;
-    cout << NewPerson << endl;  // TODO: Remove later
 
     Person* pFamilyTree = new Person(sFirstName, sLastName,sGender,sBirthYear,sDeathYear);
     Person* pActivePerson = pFamilyTree;
 
-    // Now we have created out tree and the root node - ready to accept commands
+    // Now we have created out tree and the root node - ready to accept command
 
-    // TODO: Lag intro text
     cout << "Active person is" << endl;
     cout << pActivePerson->printPerson() << endl << endl;
-    cout << "Please input command. Valid commands are ADD, PRINT, CHOOSE ACTIVE PERSON or EXIT" << endl;
 
+    PrintHelp();
     string Command;
 
-// TODO: sjekk hva kommando det er og kall rett del av koden
-    while (Command != "EXIT") {
+    while ((Command != "EXIT") || (Command != "6")) {
         cout << "Command: ";
-
         getline(cin, Command);
-//TODO: ADD Child -> active person
-        if (Command == "ADD") {
+
+        // ADD Command
+        if ((Command == "ADD") || (Command == "1")) {
 
             cout << "First name: ";
 
@@ -118,17 +125,15 @@ int main(){
             pActivePerson->addChild(sFirstName, sLastName, sGender, sBirthYear, sDeathYear);
             pActivePerson->printPerson();
 
-        } else if (Command == "PRINT") {
-            pFamilyTree->breadthFirstTraverse();
-            //pFamilyTree->traverse();
-        } else if (Command == "CHOOSE ACTIVE PERSON") {
+            // Print Command
+        } else if ((Command == "CHOOSE ACTIVE PERSON") || (Command == "2")) {
             string sParentFirstName, sParentLastName;
             cout << "Parent First Name: ";
             cin >> sParentFirstName;
             cout << "Parent Last Name: ";
             cin >> sParentLastName;
             bool bPersonFound = false;
-            Person* pNewParent = pFamilyTree->findPerson(sParentFirstName,sParentLastName,bPersonFound);
+            Person *pNewParent = pFamilyTree->findPerson(sParentFirstName, sParentLastName, bPersonFound);
             if (pNewParent) {
                 pActivePerson = pNewParent;
             } else {
@@ -136,54 +141,23 @@ int main(){
             }
 
             cout << "Active person is:" << endl;
-            cout << *pActivePerson;
+            cout << *pActivePerson << endl;
+        } else if ((Command == "PRINT") || (Command == "3")) {
+            cout << "Family tree printed in X order" << endl;
+            pFamilyTree->breadthFirstTraverse();
 
+        } else if ((Command == "PRINT2") || (Command == "4")) {
+            cout << "Family tree printed in Y order" << endl;
+            pFamilyTree->traverse();
 
-
-
-        } else if (Command == "EXIT") {
-            return 0;
+            // CHOOSE ACTIVE PERSON command
+        } else if ((Command == "HELP") || (Command == "5")) {
+            PrintHelp();
         }
+
 //TODO: SET active Person
     }
     delete pFamilyTree;
     return 0;
 
 }
-
-/*int main()
-{
-    Person Geir{"Geir", "Henriksen", "Male", 1900, 1978};
-    //Person Erik{"Erik", "Vagle", "Male", 2001, 2150};
-    //Fredrik.addChild(&Erik);
-    //Fredrik.addChild(&Erik);
-    Geir.addChild("Bjørnar", "Henriksen", "Male", 1924, 2002);
-    Geir.addChild("Elisabeth", "Henriksen", "Female", 1930, 2014);
-    Geir.addChild("Karl", "Henriksen", "Male", 1935, 0);
-    Person* Karl = Geir.selectChild("Karl");
-    Karl->addChild("Birte", "Pettersen", "Female", 1965, 0);
-    Karl->addChild("Ole", "Henriksen", "Male", 1960, 0);
-    Karl->addChild("Monica", "Isaksen", "Female", 1968, 0);
-    Person* Bjørnar = Geir.selectChild("Bjørnar");
-    Bjørnar->addChild("Bengt", "Henrikse", "Male", 1950, 0);
-    Person* Elisabeth = Geir.selectChild("Elisabeth");
-    Elisabeth->addChild("katrine", "Henriksen", "Female", 1962, 0);
-    Elisabeth->addChild("Lasse", "Henriksen", "Male", 1959, 0);
-
-    int i = 0;
-
-
-
-
-
-
-
-
-    std::cout << "breadtFirstTraversal" << endl;
-    Geir.breadthFirstTraverse();
-    std::cout << endl << "depthFirstTraversal" << endl;
-    Geir.traverse();
-    //std::cout << Fredrik << endl;
-    //std::cout << Erik << endl;
-
-}*/
