@@ -12,8 +12,8 @@ void PrintHelp () { //Function that prints valid commands
     cout << "CHOOSE ACTIVE PERSON or 2 to select a new active person" << endl;
     cout << "PRINT or 3 to print family in order" << endl;
     cout << "PRINT2 or 4 to print family tree in order " << endl;
-    cout << "HELP or 5 to print valid commands" << endl;
-    cout << "EXIT or 6 to exit the program" << endl << endl;
+    cout << "HELP or 7 to print valid commands" << endl;
+    cout << "EXIT or 8 to exit the program" << endl << endl;
 }
 
 /*void AddPerson () {
@@ -89,8 +89,8 @@ int main(){
     PrintHelp();
     string Command;
 
-    while ((Command != "EXIT") && (Command != "6")) {
-        cout << "Type HELP or 5 to list valid commands" << endl;
+    while ((Command != "EXIT") && (Command != "8")) {
+        cout << "Type HELP or 7 to list valid commands" << endl;
         cout << "Command: ";
         getline(cin, Command);
 
@@ -130,19 +130,8 @@ int main(){
             cin >> sParentFirstName;
             cout << "Parent Last Name: ";
             cin >> sParentLastName;
-            /*
-            bool bPersonFound = false;
-            Person *pNewParent = pFamilyTree->findPerson(sParentFirstName, sParentLastName, bPersonFound);
-            if (pNewParent) {
-                pActivePerson = pNewParent;
-            } else {
-               cout << "Parent not found" << endl;
-            }
-
-            cout << "Active person is:" << endl;
-            cout << *pActivePerson << endl;*/
             Person* pFoundPerson = nullptr;
-            pFamilyTree->findPerson2(sParentFirstName, sParentLastName, pFoundPerson);
+            pFamilyTree->findPerson(sParentFirstName, sParentLastName, pFoundPerson);
 
             if (pFoundPerson != nullptr) {
                 pActivePerson = pFoundPerson;
@@ -152,16 +141,29 @@ int main(){
                 cout << "Parent not found" << endl;
             }
 
-        } else if ((Command == "PRINT") || (Command == "3")) {
+        } else if ((Command == "EDIT") || (Command == "3")) {
+            pActivePerson->editPerson();
+        } else if ((Command == "DELETE") || (Command == "4")) {
+            if (pActivePerson->getParent()) { // Will return NULL (ie false) preventing deletion of root node
+                Person *pNewActivePerson = pActivePerson->getParent();
+                pActivePerson->removePerson();
+                delete pActivePerson;
+                pActivePerson = pNewActivePerson;
+
+                cout << "New active person is now " << *pActivePerson << endl;
+            } else {
+                cout << "You cannot delete the ancestor" << endl;
+            }
+
+        } else if ((Command == "PRINT") || (Command == "5")) {
             cout << "Family tree printed in X order" << endl;
             pFamilyTree->breadthFirstTraverse();
 
-        } else if ((Command == "PRINT2") || (Command == "4")) {
+        } else if ((Command == "PRINT2") || (Command == "6")) {
             cout << "Family tree printed in Y order" << endl;
-            pFamilyTree->traverse();
 
             // CHOOSE ACTIVE PERSON command
-        } else if ((Command == "HELP") || (Command == "5")) {
+        } else if ((Command == "HELP") || (Command == "7")) {
             PrintHelp();
 
         }

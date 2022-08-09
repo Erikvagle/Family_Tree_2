@@ -1,17 +1,12 @@
 #include "Person.h"
 
-Person::Person(string firstname, string lastname, string gender, string birthYear, string deathYear):
-    firstname_(firstname), lastname_(lastname), gender_(gender), birthYear_(birthYear), deathYear_(deathYear)
+Person::Person(string firstname, string lastname, string gender, string birthYear, string deathYear, Person* Parent):
+    firstname_(firstname), lastname_(lastname), gender_(gender), birthYear_(birthYear), deathYear_(deathYear), Parent_(Parent)
 {
     // Constructor assigning initial values
     children = vector<Person *>();
-    Parent = nullptr;
 }
 Person::~Person() {
-    /*if (Parent) {
-        cout << "Destructor called on" << firstname_ << ", " << lastname_ << endl;
-        delete Parent;
-    }*/
     if (!children.empty()) {
         for (int i=0; i<children.size(); i++) {
             cout << "Destructor called on " + children[i]->firstname_ << ", " << children[i]->lastname_ << endl;
@@ -81,7 +76,46 @@ void Person::breadthFirstTraverse(int nIndent) {
     }
 }
 
+/*
+void Person::printByGeneration(Person* Tree) {
+    vector<Person *> AllChildren = vector<Person *>();
+    Person* pCurrentPerson;
+    for (int i=0; i < Tree->children.size(); i++){
+        pCurrentPerson = Tree->children[i];
+        AllChildren.push_back(pCurrentPerson);
+        cout << *pCurrentPerson << " || ";
+    }
 
+    printByGeneration(AllChildren);
+}
+
+
+void Person::printByGeneration (vector<Person *> &AllChildren) {
+    // Find all children
+    vector<Person *> NewGeneration = vector<Person *>();
+    Person* pCurrentPerson, pCurrentNextGen;
+
+    for (int i=0; i < AllChildren.size(); i++){
+        pCurrentPerson = AllChildren[i];
+
+        for (int y=0; y < pCurrentPerson[i].children.size();y++){
+            pCurrentNextGen = pCurrentPerson[i].children[y];
+            NewGeneration.push_back(*pCurrentNextGen);
+
+        }
+
+        AllChildren.push_back(children[i]);
+        cout << children[i] << " || ";
+    }
+
+    // Print
+    cout << endl;
+    // Send all children recursivly
+    this->printByGeneration(AllChildren);
+
+
+}
+*/
 string Person::getFirstName() {
         return firstname_;
     }
@@ -95,7 +129,11 @@ string Person::getGender() {
     }
 
 void Person::setParent(Person* newParent){
-    Parent = newParent;
+    Parent_ = newParent;
+}
+
+Person* Person::getParent(){
+    return Parent_;
 }
 
 string Person::getBirthYear() {
@@ -106,6 +144,21 @@ string Person::getDeathYear() {
         return deathYear_;
     }
 
+void Person::setFirstName(string FirstName) {
+    firstname_ = FirstName;
+}
+void Person::setLastName(string LastName){
+    lastname_ = LastName;
+}
+void Person::setGender(string Gender) {
+    gender_ = Gender;
+}
+void Person::setBirthYear(string BirthYear) {
+    birthYear_ = BirthYear;
+}
+void Person::setDeathYear(string DeathYear) {
+    deathYear_ = DeathYear;
+}
 
 void Person::addChild(Person* nextPerson){
     //add existing child to a person
@@ -119,58 +172,17 @@ void Person::addChild(string firstname, string lastname, string gender, string b
     children.push_back(newChild);
 }
 
-Person* Person::selectChild (string FirstName, string LastName) {
-    // select child from name return nullptr if child does not exist
-    Person* currentChild;
-    Person* returnChild = nullptr;
-    if (!children.empty())  {
-        for (int i = 0; i<children.size(); i++){
-            currentChild = children[i];
-            string currentFirstName = currentChild-> getFirstName();
-            string currentLastName = currentChild->getLastName();
-            if ((currentFirstName == FirstName) && (currentLastName == LastName) )
-                returnChild = currentChild;
-            }
-        }
-    return returnChild;
-}
-
-void Person::findPerson2 (string Firstname, string Lastname, Person* &pReturnPerson) {
+void Person::findPerson (string Firstname, string Lastname, Person* &pReturnPerson) {
     if ((Firstname == getFirstName()) && (Lastname == getLastName())) {
         pReturnPerson = this;
         return;
     } else if (!children.empty()) {
         for (int i = 0; i<children.size(); i++){
-            children[i]->findPerson2(Firstname, Lastname, pReturnPerson);
+            children[i]->findPerson(Firstname, Lastname, pReturnPerson);
         }
     }
     return;
 }
-
-Person* Person::findPerson (string Firstname, string Lastname, bool &PersonFound) {
-    Person* pReturnPerson = nullptr;
-    Person* pFoundPerson = nullptr;
-    PersonFound = false;
-
-    if ( (Firstname == getFirstName()) && (Lastname == getLastName()) ) {
-        pFoundPerson = this;
-        PersonFound = true;
-    } else if (!children.empty()) {
-        for (int i = 0; i<children.size(); i++){
-            children[i]->findPerson(Firstname, Lastname, PersonFound);
-            if (PersonFound) {
-                pFoundPerson = children[i];
-                break;
-            }
-        }
-    }
-    if (PersonFound) {
-        pReturnPerson = pFoundPerson;
-    }
-    return pReturnPerson;
-
-}
-
 
 string Person::printPerson() {
     string sReturnString;
@@ -179,6 +191,70 @@ string Person::printPerson() {
     return sReturnString;
 }
 
+void Person::removePerson () {
+    Person* pParent = this->getParent();
+    if (pParent) {
+        // Remove child from parent
+        for (int i=0; pParent->children[i]; i++) {
+            if (this == pParent->children[i]){
+                pParent->children.erase(pParent->children.begin()+i);
+                cout << *this << " has been deleted" << endl;
+            }
+        }
+    }
+}
+
+void Person::editPerson() {
+    // Print values of current person
+    string sCurrentFirstName, sCurrentLastName, sCurrentGender, sCurrentBirthYear, sCurrentDeathYear;
+    string sNewValue;
+    sCurrentFirstName = getFirstName();
+    sCurrentLastName = getLastName();
+    sCurrentGender = getGender();
+    sCurrentBirthYear = getBirthYear();
+    sCurrentDeathYear = getDeathYear();
+
+    cout << "Each value will be printed below. Type in new value or just hit enter to keep the old value" << endl;
+
+    cout << "Current first name: " << sCurrentFirstName << endl;
+    cout << "Enter new first name: ";
+    getline(cin, sNewValue );
+
+    if (sNewValue.size() != 0)
+        setFirstName(sNewValue);
+
+    cout << "Current last name: " << sCurrentLastName << endl;
+    cout << "Enter new last name: ";
+    getline(cin, sNewValue );
+
+    if (sNewValue.size() != 0)
+        setLastName(sNewValue);
+
+    cout << "Current gender: " << sCurrentGender << endl;
+    cout << "Enter new gender: ";
+    getline(cin, sNewValue );
+
+    if (sNewValue.size() != 0)
+        setGender(sNewValue);
+
+    cout << "Current birth year: " << sCurrentBirthYear << endl;
+    cout << "Enter new birth year: ";
+    getline(cin, sNewValue );
+
+    if (sNewValue.size() != 0)
+        setBirthYear(sNewValue);
+
+    cout << "Current death year: " << sCurrentDeathYear << endl;
+    cout << "Enter new death year: ";
+    getline(cin, sNewValue );
+
+    if (sNewValue.size() != 0)
+        setDeathYear(sNewValue);
+
+    cout << "Values updated to :" << endl << *this << endl;
+
+
+}
 
 std::ostream& operator <<(std::ostream& os, const Person& c) {
     os << c.firstname_ << ", " << c.lastname_ << ", " << c.gender_ << ", Born: " << c.birthYear_ << ", Died: " << c.deathYear_;
