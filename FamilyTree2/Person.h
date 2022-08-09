@@ -44,7 +44,7 @@ public:
     string printPerson();
     Person* selectChild (string Firstname, string Lastname);
     Person* findPerson (string Firstname, string Lastname, bool &PersonFound);
-
+    void findPerson2 (string Firstname, string Lastname, Person* &pReturnPerson);
     friend ostream &operator<<(ostream &os, const Person &c);
 
 };

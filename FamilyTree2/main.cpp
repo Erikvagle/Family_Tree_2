@@ -130,16 +130,28 @@ int main(){
             cin >> sParentFirstName;
             cout << "Parent Last Name: ";
             cin >> sParentLastName;
+            /*
             bool bPersonFound = false;
             Person *pNewParent = pFamilyTree->findPerson(sParentFirstName, sParentLastName, bPersonFound);
             if (pNewParent) {
                 pActivePerson = pNewParent;
             } else {
-                cout << "Parent not found" << endl;
+               cout << "Parent not found" << endl;
             }
 
             cout << "Active person is:" << endl;
-            cout << *pActivePerson << endl;
+            cout << *pActivePerson << endl;*/
+            Person* pFoundPerson = nullptr;
+            pFamilyTree->findPerson2(sParentFirstName, sParentLastName, pFoundPerson);
+
+            if (pFoundPerson != nullptr) {
+                pActivePerson = pFoundPerson;
+                cout << "Active person is:" << endl;
+                cout << *pActivePerson << endl;
+            } else {
+                cout << "Parent not found" << endl;
+            }
+
         } else if ((Command == "PRINT") || (Command == "3")) {
             cout << "Family tree printed in X order" << endl;
             pFamilyTree->breadthFirstTraverse();

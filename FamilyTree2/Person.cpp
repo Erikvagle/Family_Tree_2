@@ -135,6 +135,18 @@ Person* Person::selectChild (string FirstName, string LastName) {
     return returnChild;
 }
 
+void Person::findPerson2 (string Firstname, string Lastname, Person* &pReturnPerson) {
+    if ((Firstname == getFirstName()) && (Lastname == getLastName())) {
+        pReturnPerson = this;
+        return;
+    } else if (!children.empty()) {
+        for (int i = 0; i<children.size(); i++){
+            children[i]->findPerson2(Firstname, Lastname, pReturnPerson);
+        }
+    }
+    return;
+}
+
 Person* Person::findPerson (string Firstname, string Lastname, bool &PersonFound) {
     Person* pReturnPerson = nullptr;
     Person* pFoundPerson = nullptr;
