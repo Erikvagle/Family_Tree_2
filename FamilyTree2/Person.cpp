@@ -1,27 +1,55 @@
 #include "Person.h"
 
-Person::Person(std::string firstname, std::string lastname, std::string gender, string birthYear, string deathYear) {
+Person::Person(string firstname, string lastname, string gender, string birthYear, string deathYear):
+    firstname_(firstname), lastname_(lastname), gender_(gender), birthYear_(birthYear), deathYear_(deathYear)
+{
     // Constructor assigning initial values
-    firstname_ = firstname;
-    lastname_ = lastname;
-    gender_ = gender;
-    birthYear_ = birthYear;
-    deathYear_ = deathYear;
     children = vector<Person *>();
     Parent = nullptr;
 }
 Person::~Person() {
-    if (Parent) {
+    /*if (Parent) {
         cout << "Destructor called on" << firstname_ << ", " << lastname_ << endl;
         delete Parent;
-    }
+    }*/
     if (!children.empty()) {
         for (int i=0; i<children.size(); i++) {
-            cout << "Destructor called on child " + children[i]->firstname_ << ", " << children[i]->lastname_ << endl;
+            cout << "Destructor called on " + children[i]->firstname_ << ", " << children[i]->lastname_ << endl;
             delete children[i];
         }
     }
 }
+/*void Person::traverse(int nIndent){
+    //Depth-first-traversal and print
+    if (!children.empty()) {
+        nIndent = nIndent + 5;
+        for (int i = 0; i<children.size(); i++){
+            children[i]->traverse(nIndent);
+        }
+        for (int i=0; i< nIndent;i++) {
+            cout << " ";
+        }
+        cout << firstname_ << "," << lastname_ << "," << gender_ << "," << birthYear_ << "," << deathYear_ << endl;
+    }
+    else{
+        cout << firstname_ << "," << lastname_ << "," << gender_ << "," << birthYear_ << "," << deathYear_ << endl;
+    }
+}
+
+void Person::breadthFirstTraverse(int nIndent) {
+    //breadth-first-traversal and print
+    for (int i=0; i< nIndent;i++) {
+        cout << " ";
+    }
+    cout << firstname_ << "," << lastname_ << "," << gender_ << "," << birthYear_ << "," << deathYear_ << endl;
+    nIndent = nIndent + 5;
+    if (!children.empty()) {
+        for (int i = 0; i < children.size(); i++) {
+            children[i]->breadthFirstTraverse(nIndent);
+        }
+    }
+}*/
+
 void Person::traverse(int nIndent){
     //Depth-first-traversal and print
     for (int i=0; i< nIndent;i++) {
@@ -109,22 +137,26 @@ Person* Person::selectChild (string FirstName, string LastName) {
 
 Person* Person::findPerson (string Firstname, string Lastname, bool &PersonFound) {
     Person* pReturnPerson = nullptr;
+    Person* pFoundPerson = nullptr;
     PersonFound = false;
 
     if ( (Firstname == getFirstName()) && (Lastname == getLastName()) ) {
-        pReturnPerson = this;
+        pFoundPerson = this;
         PersonFound = true;
-        return pReturnPerson;
     } else if (!children.empty()) {
         for (int i = 0; i<children.size(); i++){
             children[i]->findPerson(Firstname, Lastname, PersonFound);
             if (PersonFound) {
-                return children[i];
+                pFoundPerson = children[i];
                 break;
             }
         }
     }
+    if (PersonFound) {
+        pReturnPerson = pFoundPerson;
+    }
     return pReturnPerson;
+
 }
 
 

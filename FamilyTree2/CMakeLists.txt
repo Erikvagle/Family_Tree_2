@@ -3,5 +3,5 @@ project(untitled3)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(ErikSinNye main.cpp Person.h Person.cpp catch.h utility.h)
+add_executable(ErikSinNye main.cpp Person.h Person.cpp utility.h)
 

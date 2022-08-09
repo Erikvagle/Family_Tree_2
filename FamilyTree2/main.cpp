@@ -5,18 +5,18 @@
 
 using namespace std;
 
-void PrintHelp () {
+void PrintHelp () { //Function that prints valid commands
     cout << "Please input command, each command has name and a corresponding number." << endl;
     cout << "Valid commands are" << endl;
-    cout << "ADD or 1" << endl;
-    cout << "CHOOSE ACTIVE PERSON or 2" << endl;
-    cout << "PRINT or 3" << endl;
-    cout << "PRINT2 or 4" << endl;
-    cout << "HELP or 5" << endl;
-    cout << "EXIT or 6" << endl;
+    cout << "ADD or 1 to add a child to the active person" << endl;
+    cout << "CHOOSE ACTIVE PERSON or 2 to select a new active person" << endl;
+    cout << "PRINT or 3 to print family in order" << endl;
+    cout << "PRINT2 or 4 to print family tree in order " << endl;
+    cout << "HELP or 5 to print valid commands" << endl;
+    cout << "EXIT or 6 to exit the program" << endl << endl;
 }
 
-void AddPerson () {
+/*void AddPerson () {
     string Commando, sFirstName, sLastName, sGender, sBirthYear, sDeathYear;
 
     cout << "First name: ";
@@ -43,10 +43,7 @@ void AddPerson () {
     cout << "Year of death = " << sDeathYear << endl;
 
     Person NewPerson = Person(sFirstName, sLastName, sGender, sBirthYear, sDeathYear);
-    cout << "Skriver ut klasse instance" << endl;
-    cout << NewPerson;
-
-}
+}*/
 
 
 int main(){
@@ -92,7 +89,8 @@ int main(){
     PrintHelp();
     string Command;
 
-    while ((Command != "EXIT") || (Command != "6")) {
+    while ((Command != "EXIT") && (Command != "6")) {
+        cout << "Type HELP or 5 to list valid commands" << endl;
         cout << "Command: ";
         getline(cin, Command);
 
@@ -115,12 +113,12 @@ int main(){
             cout << "Year of death: ";
             getline(cin, sDeathYear);
 
-            cout << endl << "you entered " << endl;
+            cout << endl << "You entered " << endl;
             cout << "First name = " << sFirstName << endl;
             cout << "Last name =  " << sLastName << endl;
             cout << "Gender = " << sGender << endl;
             cout << "Year of birth = " << sBirthYear << endl;
-            cout << "Year of death = " << sDeathYear << endl;
+            cout << "Year of death = " << sDeathYear << endl << endl;
 
             pActivePerson->addChild(sFirstName, sLastName, sGender, sBirthYear, sDeathYear);
             pActivePerson->printPerson();
@@ -153,11 +151,9 @@ int main(){
             // CHOOSE ACTIVE PERSON command
         } else if ((Command == "HELP") || (Command == "5")) {
             PrintHelp();
-        }
 
-//TODO: SET active Person
+        }
     }
     delete pFamilyTree;
     return 0;
-
 }

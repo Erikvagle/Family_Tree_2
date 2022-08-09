@@ -22,7 +22,8 @@ public:
             string gender,
             string birthYear,
             string deathYear);
-    virtual ~Person();
+    ~Person();
+
     void traverse(int nIndent = 0);
     void breadthFirstTraverse(int nIndent = 0);
 
